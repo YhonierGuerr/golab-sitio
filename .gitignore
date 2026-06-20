@@ -1,0 +1,13 @@
+# --- No publicar (carpetas internas / laboratorio de redes ajeno al sitio) ---
+.claude/
+syslog/
+GUIA-BASE-DE-DATOS.md
+
+# --- Artefactos de despliegue / dependencias ---
+*.zip
+node_modules/
+
+# --- Archivos del sistema ---
+Thumbs.db
+desktop.ini
+.DS_Store

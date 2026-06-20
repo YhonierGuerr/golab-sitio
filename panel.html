@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Panel · GO-LAB Soluciones Tecnológicas</title>
+    <script>
+        (function () {
+            var d = document.documentElement; d.classList.add('js');
+            try { var t = localStorage.getItem('golab-theme'); if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; d.setAttribute('data-theme', t); } catch (e) {}
+        })();
+    </script>
+    <link rel="icon" type="image/png" href="assets/img/logo-mark-black.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        body { background: var(--bg-alt); }
+        .panel-top { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 22px; background: var(--header-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+        .panel-top .brand__logo { height: 40px; }
+        .panel-top__r { display: flex; align-items: center; gap: 10px; }
+        .panel-wrap { max-width: 1080px; margin: 0 auto; padding: 26px 22px 80px; }
+
+        /* Login */
+        .login { min-height: 80vh; display: grid; place-items: center; padding: 24px; }
+        .login__card { width: min(420px, 100%); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 38px 32px; text-align: center; }
+        .login__card img { height: 56px; margin: 0 auto 18px; }
+        .login__card h1 { font-family: var(--font-head); font-size: 1.35rem; margin-bottom: 6px; }
+        .login__card p { color: var(--text-muted); font-size: .92rem; margin-bottom: 22px; }
+        .login__card .field { text-align: left; margin-bottom: 16px; }
+        .login__err { color: #e23b3b; font-size: .88rem; min-height: 1.1em; margin-bottom: 10px; }
+
+        .banner { display: flex; gap: 12px; align-items: flex-start; background: rgba(255,107,0,.1); border: 1px solid rgba(255,107,0,.3); color: var(--text); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 24px; font-size: .9rem; }
+        .banner svg { flex-shrink: 0; color: var(--orange); margin-top: 2px; }
+        .banner a { color: var(--orange); font-weight: 600; }
+
+        .panel-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 20px; }
+        .panel-head h2 { font-family: var(--font-head); font-size: 1.5rem; }
+        .tabs { display: inline-flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 5px; }
+        .tab { padding: 9px 18px; border-radius: var(--radius-pill); font-family: var(--font-head); font-weight: 600; font-size: .9rem; color: var(--text-muted); }
+        .tab.is-active { background: var(--orange); color: #fff; }
+        .tab span { display: inline-block; min-width: 20px; padding: 0 6px; margin-left: 4px; border-radius: 10px; background: rgba(0,0,0,.12); font-size: .78rem; }
+        .tab.is-active span { background: rgba(255,255,255,.25); }
+
+        .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+        .toolbar__search { position: relative; flex: 1 1 240px; max-width: 380px; }
+        .toolbar__search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+        .toolbar__search input { width: 100%; padding: 11px 14px 11px 42px; border: 1.5px solid var(--border); border-radius: var(--radius-pill); background: var(--surface); color: var(--text); }
+        .toolbar__search input:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 4px rgba(255,107,0,.14); }
+        .toolbar__actions { display: flex; gap: 10px; }
+
+        .rows { display: flex; flex-direction: column; gap: 12px; }
+        .row-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
+        .row-card__main { min-width: 0; }
+        .row-card__title { font-family: var(--font-head); font-weight: 600; font-size: 1.02rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .pill-type { font-size: .7rem; font-weight: 600; padding: 2px 9px; border-radius: var(--radius-pill); background: rgba(255,107,0,.12); color: var(--orange); }
+        .row-card__meta { color: var(--text-muted); font-size: .88rem; margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
+        .row-card__meta a { color: inherit; }
+        .row-card__meta a:hover { color: var(--orange); }
+        .row-card__notes { font-size: .86rem; color: var(--text-muted); margin-top: 6px; }
+        .row-card__actions { display: flex; gap: 8px; }
+        .icon-btn { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: var(--bg-alt); border: 1px solid var(--border); color: var(--text); transition: background .2s, color .2s, border-color .2s; }
+        .icon-btn:hover { border-color: var(--orange); color: var(--orange); }
+        .icon-btn--danger:hover { border-color: #e23b3b; color: #e23b3b; }
+        .icon-btn--wa:hover { border-color: #25D366; color: #25D366; }
+
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+        .empty-state svg { color: var(--border); margin-bottom: 14px; }
+
+        /* Modal del panel */
+        .pmodal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; }
+        .pmodal[hidden] { display: none; }
+        .pmodal__ov { position: absolute; inset: 0; background: rgba(10,11,13,.6); backdrop-filter: blur(4px); }
+        .pmodal__box { position: relative; width: min(540px, 100%); max-height: 92vh; overflow: auto; background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); padding: 30px; animation: modal-in .3s cubic-bezier(.2,.7,.2,1); }
+        .pmodal__box h3 { font-family: var(--font-head); font-size: 1.3rem; margin-bottom: 18px; }
+        .prow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .pmodal .field { margin-bottom: 14px; }
+        .pmodal label { display: block; font-family: var(--font-head); font-weight: 500; font-size: .85rem; margin-bottom: 6px; }
+        .pmodal input, .pmodal select, .pmodal textarea { width: 100%; padding: 11px 13px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-alt); color: var(--text); font-size: .95rem; }
+        .pmodal input:focus, .pmodal select:focus, .pmodal textarea:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,107,0,.14); background: var(--surface); }
+        .pmodal__foot { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
+
+        @media (max-width: 560px) {
+            .row-card { grid-template-columns: 1fr; }
+            .row-card__actions { justify-content: flex-end; }
+            .prow { grid-template-columns: 1fr; }
+            .panel-head h2 { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== Login ===== -->
+    <section class="login" id="loginView" hidden>
+        <form class="login__card" id="loginForm">
+            <img src="assets/img/logo-mark-black.png" alt="GO-LAB" class="logo-img--light">
+            <img src="assets/img/logo-mark-white.png" alt="GO-LAB" class="logo-img--dark" aria-hidden="true">
+            <h1>Panel de administración</h1>
+            <p>Ingresa para gestionar tus clientes y solicitudes.</p>
+            <div class="field">
+                <label for="pwd">Contraseña</label>
+                <input type="password" id="pwd" autocomplete="current-password" placeholder="••••••••" required>
+            </div>
+            <p class="login__err" id="loginErr" role="alert"></p>
+            <button type="submit" class="btn btn--primary btn--block">Ingresar</button>
+        </form>
+    </section>
+
+    <!-- ===== Panel ===== -->
+    <div id="appView" hidden>
+        <header class="panel-top">
+            <a href="index.html" class="brand" title="Ver sitio">
+                <img class="brand__logo logo-img--light" src="assets/img/logo-mark-black.png" alt="GO-LAB">
+                <img class="brand__logo logo-img--dark" src="assets/img/logo-mark-white.png" alt="" aria-hidden="true">
+            </a>
+            <div class="panel-top__r">
+                <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">
+                    <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                </button>
+                <button class="btn btn--ghost btn--sm" id="logoutBtn" type="button">Cerrar sesión</button>
+            </div>
+        </header>
+
+        <div class="panel-wrap">
+            <div class="banner" id="modeBanner"></div>
+
+            <div class="panel-head">
+                <h2>Hola 👋 Administra tu negocio</h2>
+                <div class="tabs">
+                    <button class="tab is-active" data-tab="clientes" type="button">Clientes <span id="countClients">0</span></button>
+                    <button class="tab" data-tab="leads" type="button">Solicitudes <span id="countLeads">0</span></button>
+                </div>
+            </div>
+
+            <!-- Clientes -->
+            <section id="tabClientes">
+                <div class="toolbar">
+                    <div class="toolbar__search">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="search" id="clientSearch" placeholder="Buscar cliente…" autocomplete="off">
+                    </div>
+                    <div class="toolbar__actions">
+                        <button class="btn btn--ghost btn--sm" id="exportClients" type="button">Exportar CSV</button>
+                        <button class="btn btn--primary btn--sm" id="addClient" type="button">+ Agregar cliente</button>
+                    </div>
+                </div>
+                <div class="rows" id="clientRows"></div>
+            </section>
+
+            <!-- Solicitudes / leads -->
+            <section id="tabLeads" hidden>
+                <div class="toolbar">
+                    <div class="toolbar__search">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="search" id="leadSearch" placeholder="Buscar solicitud…" autocomplete="off">
+                    </div>
+                    <div class="toolbar__actions">
+                        <button class="btn btn--ghost btn--sm" id="exportLeads" type="button">Exportar CSV</button>
+                    </div>
+                </div>
+                <div class="rows" id="leadRows"></div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal cliente -->
+    <div class="pmodal" id="clientModal" hidden role="dialog" aria-modal="true">
+        <div class="pmodal__ov" data-close></div>
+        <form class="pmodal__box" id="clientForm">
+            <h3 id="clientModalTitle">Nuevo cliente</h3>
+            <input type="hidden" id="cId">
+            <div class="field">
+                <label for="cCompany">Empresa / Institución *</label>
+                <input type="text" id="cCompany" required>
+            </div>
+            <div class="prow">
+                <div class="field">
+                    <label for="cContact">Persona de contacto</label>
+                    <input type="text" id="cContact">
+                </div>
+                <div class="field">
+                    <label for="cType">Tipo</label>
+                    <select id="cType">
+                        <option>Empresa</option>
+                        <option>Institución</option>
+                        <option>Entidad pública</option>
+                    </select>
+                </div>
+            </div>
+            <div class="prow">
+                <div class="field">
+                    <label for="cPhone">Teléfono</label>
+                    <input type="tel" id="cPhone">
+                </div>
+                <div class="field">
+                    <label for="cEmail">Correo</label>
+                    <input type="email" id="cEmail">
+                </div>
+            </div>
+            <div class="field">
+                <label for="cNotes">Notas</label>
+                <textarea id="cNotes" rows="3" placeholder="Servicios contratados, observaciones…"></textarea>
+            </div>
+            <div class="pmodal__foot">
+                <button type="button" class="btn btn--ghost btn--sm" data-close>Cancelar</button>
+                <button type="submit" class="btn btn--primary btn--sm">Guardar</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/panel.js"></script>
+</body>
+</html>
