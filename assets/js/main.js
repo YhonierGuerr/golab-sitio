@@ -279,7 +279,10 @@
         var filtersEl = document.getElementById('catalogFilters');
         var emptyEl = document.getElementById('catalogEmpty');
         var modal = document.getElementById('productModal');
-        var state = { cat: 'Todos', q: '' };
+        var moreWrap = document.getElementById('catalogMoreWrap');
+        var moreBtn = document.getElementById('catalogMore');
+        var PAGE = 48;
+        var state = { cat: 'Todos', q: '', limit: PAGE };
 
         function esc(s) {
             return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -314,11 +317,17 @@
             var q = state.q.trim().toLowerCase();
             var list = data.filter(function (p) {
                 var okCat = state.cat === 'Todos' || p.category === state.cat;
-                var okQ = !q || (p.name + ' ' + p.model + ' ' + p.category).toLowerCase().indexOf(q) > -1;
+                var okQ = !q || (p.name + ' ' + p.model + ' ' + p.category + ' ' + (p.desc || '')).toLowerCase().indexOf(q) > -1;
                 return okCat && okQ;
             });
-            grid.innerHTML = list.map(cardHTML).join('');
+            var shown = list.slice(0, state.limit);
+            grid.innerHTML = shown.map(cardHTML).join('');
             if (emptyEl) emptyEl.hidden = list.length > 0;
+            if (moreWrap) {
+                var rem = list.length - shown.length;
+                moreWrap.hidden = rem <= 0;
+                if (moreBtn) moreBtn.textContent = 'Ver más equipos (' + rem + ' restantes)';
+            }
         }
 
         // Chips de filtro por categoría
@@ -331,10 +340,12 @@
                 var b = e.target.closest('.catalog-chip'); if (!b) return;
                 state.cat = b.getAttribute('data-cat');
                 filtersEl.querySelectorAll('.catalog-chip').forEach(function (x) { x.classList.toggle('is-active', x === b); });
+                state.limit = PAGE;
                 render();
             });
         }
-        if (searchInput) searchInput.addEventListener('input', function () { state.q = searchInput.value; render(); });
+        if (searchInput) searchInput.addEventListener('input', function () { state.q = searchInput.value; state.limit = PAGE; render(); });
+        if (moreBtn) moreBtn.addEventListener('click', function () { state.limit += PAGE; render(); });
 
         // Modal de detalle
         var lastFocus = null;

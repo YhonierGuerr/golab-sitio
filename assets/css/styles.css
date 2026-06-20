@@ -430,6 +430,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.18; font-weight: 
 .catalog-card__stock.is-low { color: var(--orange); background: rgba(255, 107, 0, .12); }
 .catalog-card__stock.is-out { color: #e23b3b; background: rgba(226, 59, 59, .12); }
 .catalog-card__more { font-family: var(--font-head); font-weight: 600; font-size: .8rem; color: var(--orange); }
+.catalog-more { text-align: center; margin-top: 32px; }
 .catalog-empty { text-align: center; color: var(--text-muted); margin-top: 30px; }
 .catalog-empty a { color: var(--orange); font-weight: 600; }
 
